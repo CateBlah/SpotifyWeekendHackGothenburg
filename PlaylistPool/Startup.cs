@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using PlaylistPool.DbContext;
+using PlaylistPool.Repositories;
 
 namespace PlaylistPool
 {
@@ -26,7 +21,8 @@ namespace PlaylistPool
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddTransient<IDatabaseRepository, DatabaseRepository>();
+            services.AddTransient<UserDbContext>();
             var connection = @"Server=(localdb)\mssqllocaldb;Database=PlaylistPool.Models.User;Trusted_Connection=True;";
             services.AddDbContext<UserDbContext>(options => options.UseSqlServer(connection));
         }
