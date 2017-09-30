@@ -8,6 +8,6 @@ namespace PlaylistPool.Repositories
 {
     public interface IDatabaseRepository
     {
-        void SaveUser(User user);
+        Task SaveUserAsync(User user);
     }
 }

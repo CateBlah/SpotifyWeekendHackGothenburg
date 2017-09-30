@@ -31,9 +31,9 @@ namespace PlaylistPool.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]User user)
+        public async Task<IActionResult> Post([FromBody]User user)
         {
-            _databaseRepository.SaveUser(user);
+            await _databaseRepository.SaveUserAsync(user);
             return Ok();
         }
 

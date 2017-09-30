@@ -15,9 +15,10 @@ namespace PlaylistPool.Repositories
             _dbContext = dbContext;
         }
 
-        public void SaveUser(User user)
+        public async Task SaveUserAsync(User user)
         {
             _dbContext.Add(user);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
