@@ -56,7 +56,6 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/callback', function(req, res) {
-console.log("I am here.")
   // your application requests refresh and access tokens
   // after checking the state parameter
 
@@ -89,10 +88,8 @@ console.log("I am here.")
 
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
-        // console.log("Access token: " + access_token),
-        // console.log("Refresh Token: " + refresh_token)    
-        // var url = 'http://localhost:52920/api/user';
-        var url = 'http://087945ae.ngrok.io/api/user' 
+
+            var url = 'http://087945ae.ngrok.io/api/user' 
         
         var body2 = {
           userId: body.id,
@@ -108,9 +105,8 @@ console.log("I am here.")
           json: true,
           url: url
         }
-        console.log(options.body)  
+        
         request(options, function (err, response, body) {
-          console.log("Somewhere")
           if (err) {
             console.error('error posting json: ', err)
             throw err
@@ -151,6 +147,27 @@ app.get('/refresh_token', function(req, res) {
     }
   });
 });
+
+app.get('/users', function(req, res) {
+  var url = 'http://087945ae.ngrok.io/api/user';
+
+  var options = {
+    method: 'get',
+    url: url
+  };
+  
+  request(options, function (err, response, body) {
+    if (err) {
+      console.error('error: ', err)
+      throw err
+    }
+    res.send(response);
+  })
+})
+
+app.post('api/spotify/generate-playlist', function(req, res) {
+
+})
 
 console.log('Listening on 8888');
 app.listen(8888);
