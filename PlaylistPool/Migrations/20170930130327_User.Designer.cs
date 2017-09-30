@@ -10,7 +10,7 @@ using System;
 namespace PlaylistPool.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20170930093645_User")]
+    [Migration("20170930130327_User")]
     partial class User
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,14 +22,14 @@ namespace PlaylistPool.Migrations
 
             modelBuilder.Entity("PlaylistPool.Models.User", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AccessToken");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("RefreshToken");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });

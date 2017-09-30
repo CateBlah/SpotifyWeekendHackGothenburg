@@ -19,10 +19,9 @@ namespace PlaylistPool.Controllers
             _databaseRepository = databaseRepository;
         }
         [HttpGet]
-        public async Task<IEnumerable<string>> Get()
+        public async Task<IEnumerable<User>> Get()
         {
-            await _databaseRepository.GetAllUsersAsync();
-            return new string[] { "value1", "value2" };
+            return await _databaseRepository.GetAllUsersAsync();
         }
 
         [HttpGet("{id}")]
@@ -43,9 +42,11 @@ namespace PlaylistPool.Controllers
         {
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody]string userId)
         {
+            await _databaseRepository.DeleteUserAsync(userId);
+            return Ok();
         }
     }
 }

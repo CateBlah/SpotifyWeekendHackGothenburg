@@ -21,14 +21,14 @@ namespace PlaylistPool.Migrations
 
             modelBuilder.Entity("PlaylistPool.Models.User", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AccessToken");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("RefreshToken");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
