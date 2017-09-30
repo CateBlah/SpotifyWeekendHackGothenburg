@@ -11,5 +11,7 @@ namespace PlaylistPool.Repositories
         Task SaveUserAsync(User user);
 
         Task<IEnumerable<User>> GetAllUsersAsync();
+
+        Task DeleteUserAsync(string id);
     }
 }

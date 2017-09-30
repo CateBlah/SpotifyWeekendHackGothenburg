@@ -43,8 +43,10 @@ namespace PlaylistPool.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
+            await _databaseRepository.DeleteUserAsync(id);
+            return Ok();
         }
     }
 }

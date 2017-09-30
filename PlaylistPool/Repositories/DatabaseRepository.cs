@@ -26,5 +26,12 @@ namespace PlaylistPool.Repositories
         {
             return await _dbContext.Users.ToListAsync();
         }
+
+        public async Task DeleteUserAsync(string id)
+        {
+            var userToDelete = _dbContext.Users.SingleOrDefault(x => x.UserId == id);
+            _dbContext.Users.Remove(userToDelete);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
