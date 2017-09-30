@@ -44,7 +44,7 @@ app.get('/login', function(req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email';
+  var scope = 'user-read-private user-read-email user-top-read playlist-read-private user-read-recently-played';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -89,21 +89,28 @@ console.log("I am here.")
 
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
-            
-        var url = 'http://localhost:52920/api/user';
+        // console.log("Access token: " + access_token),
+        // console.log("Refresh Token: " + refresh_token)    
+        // var url = 'http://localhost:52920/api/user';
+        var url = 'http://087945ae.ngrok.io/api/user' 
         
+        var body2 = {
+          userId: body.id,
+          accessToken: access_token,
+          refreshToken: refresh_token
+        }
         var options = {
           method: 'post',
-          body: {
-            Id: '1',
-            UserId: body.id,
-            AccessToken: access_token
+          body: body2,
+          headers: {
+            "Content-Type": "application/json"      
           },
           json: true,
           url: url
         }
-
-        request(options, function (err, res, body) {
+        console.log(options.body)  
+        request(options, function (err, response, body) {
+          console.log("Somewhere")
           if (err) {
             console.error('error posting json: ', err)
             throw err
