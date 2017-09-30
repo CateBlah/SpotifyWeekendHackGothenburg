@@ -26,6 +26,8 @@ namespace PlaylistPool.Migrations
 
                     b.Property<string>("AccessToken");
 
+                    b.Property<string>("RefreshToken");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Users");

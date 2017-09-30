@@ -10,7 +10,7 @@ using System;
 namespace PlaylistPool.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20170930121915_Initial")]
+    [Migration("20170930130313_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,8 @@ namespace PlaylistPool.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AccessToken");
+
+                    b.Property<string>("RefreshToken");
 
                     b.HasKey("UserId");
 
