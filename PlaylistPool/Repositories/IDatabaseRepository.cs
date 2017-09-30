@@ -9,5 +9,7 @@ namespace PlaylistPool.Repositories
     public interface IDatabaseRepository
     {
         Task SaveUserAsync(User user);
+
+        Task<IEnumerable<User>> GetAllUsersAsync();
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PlaylistPool.DbContext;
 using PlaylistPool.Models;
 
@@ -19,6 +20,11 @@ namespace PlaylistPool.Repositories
         {
             _dbContext.Add(user);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _dbContext.Users.ToListAsync();
         }
     }
 }

@@ -19,8 +19,9 @@ namespace PlaylistPool.Controllers
             _databaseRepository = databaseRepository;
         }
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<string>> Get()
         {
+            await _databaseRepository.GetAllUsersAsync();
             return new string[] { "value1", "value2" };
         }
 
