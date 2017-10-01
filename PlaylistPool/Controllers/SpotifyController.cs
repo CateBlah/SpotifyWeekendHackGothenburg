@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PlaylistPool.Models;
+using PlaylistPool.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,9 +14,12 @@ namespace PlaylistPool.Controllers
     public class SpotifyController : Controller
     {
         private readonly ISpotifyConnector _spotifyConnector;
-        public SpotifyController(ISpotifyConnector spotifyConnector)
+        private readonly IDatabaseRepository _databaseRepository;
+        public SpotifyController(ISpotifyConnector spotifyConnector, IDatabaseRepository databaseRepository)
         {
             _spotifyConnector = spotifyConnector;
+            _databaseRepository = databaseRepository;
+
         }
 
         [HttpPost("generate-playlist")]
@@ -60,11 +64,25 @@ namespace PlaylistPool.Controllers
             return createdPlaylist.id;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("get-users")]
+        public async Task<List<ReturnUser>> GetUsers()
         {
-            return "value";
+            var users = await _databaseRepository.GetAllUsersAsync();
+            var returnUsers = new List<ReturnUser>();
+            foreach (var user in users)
+            {
+                var userAuthToken = await _spotifyConnector.GetOauthTokenAsync(user);
+                var userInfo = await _spotifyConnector.GetUser(userAuthToken);
+                returnUsers.Add(new ReturnUser
+                {
+                    RefreshToken = user.RefreshToken,
+                    UserId = user.UserId,
+                    AccessToken = user.AccessToken,
+                    ImageUri = userInfo.images.First().url
+                });
+            }
+
+            return returnUsers;
         }
 
         // POST api/values
