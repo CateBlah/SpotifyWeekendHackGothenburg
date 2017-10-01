@@ -24,6 +24,8 @@ a {
     height: 100%;
 }
 
+
+
 .col {
     flex: 1 1 auto;
     /* background-color: #0084FF; */
@@ -106,6 +108,10 @@ a {
     margin-left: 105px;
 }
 
+.highlight {
+    opacity: 0.5;
+}
+
 /* .individual{
     -webkit-animation: bump 6s linear 0s infinite normal;
 } */
@@ -162,10 +168,6 @@ a {
     animation: pulse 1s ease 0s infinite normal;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
-@import url(https://fonts.googleapis.com/css?family=Fira+Sans);
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-@import url(https://fonts.googleapis.com/css?family=Droid+Sans);
 body, html {
   margin: 0;
   padding: 0;

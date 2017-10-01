@@ -35,7 +35,7 @@ var generateRandomString = function (length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
-var url = 'http://10f838bf.ngrok.io/api/user';
+var url = 'http://2cb61383.ngrok.io/api/user';
 
 app.use(express.static(__dirname + '/public'))
   .use(cookieParser());
@@ -144,9 +144,42 @@ app.get('/users', function (req, res) {
   })
 })
 
-app.post('api/spotify/generate-playlist', function (req, res) {
+app.post('/createPlaylist', function(req, res) {
+  var createPlaylistUrl = "http://2cb61383.ngrok.io/api/spotify/generate-playlist";
 
-})
+  req.body = [
+    {
+        "userId": "1992a929-9c47-4f2a-bee2-e2c8ca2cd1d9",
+        "accessToken": "BQC42IR-ogJMFKOaeov6fcqY_5ulYdhaFlX4NQEA02h1nSOquz7VzTZAmR05xlMrabBGePt9ZU0fOz2UeJqQew33CMoeNT7BrGsaJ2TbbmC-hIMgm9QFMaq1nU-Z3o_ZG2UdWWig4tJl5yXqyhWZ_5WrlPYMIKNvc99Kyq3vG8k8fu2AxekA4IVqirok6TCL3zBA4ersdowkwty3QuNquJCGLAs_XrRDcnXE",
+        "refreshToken": "AQCY_TkWwW8ScKbAB2ybkVxzWXN455Dw9Gq4kwD-BfedPqyUoEWbqsK-8WvFY7QiTO944YsqKV4AXMOTlvA8cxEysFiWfhQwi2Z9c5llveJl1x7OI1MigUKiiEXNuJK7FFs"
+    },
+    {
+        "userId": "56bfb5d3-300a-41b2-8b48-087e76a71230",
+        "accessToken": "BQC0UO7cMYON0LDmtLH2DVh-e-6MSwV5AuhjF8qEWi_OLC5lW-0OkuIt_CL_n44F2GvsexZ4Mo_dB-0zX_RelZAJqathga0Dkid_rc8gDBBpZLCpuy8XinMFf2DNr2iWUudKLrGxkS-m_VQoZ-aBenUHXE1ayeLySXaGmoJ8rqEt3VLJwcJuJInJxJN2eyVf",
+        "refreshToken": "AQBq3_346SDyWxZVRfgITLmeWU_ggEp644vZ4H72_YfF5mHxsuYjrdfPge_LkVJfrR_MT2eRGQmumKMDHB0tMzGMTIW1YA4LpD14BsZEI-9Ky0QM4bODpbiVryXEda64K20"
+    },
+    {
+        "userId": "b4ce46c5-1051-4f78-ad40-ca0b91b84356",
+        "accessToken": "BQDdTuyw09gu-12NDd1J8gZN2DJNbCKgAWiNXAt5oXkvUGilGdXwGkeztCrLAf57XxfUcokxdEFvj_49QmRxkOI61i7fd3Sq-ouOsuLAldbwZwjTgQ4ib8hp_nVHR8mgiP-uEbAy8LvarbHR1CoZumfOwlfkQl_oiAUyYNd4ydBfoOIoJfGG_PMB",
+        "refreshToken": "AQBkJEru6bbQPkxwQPtEgz-MR1WoxLimObG82ZPB_x7q3Ka0sEW3HXNiiuAcgGfsBvqauejMxBpA7caIUUGINxLWYjbWc0b2GfutRriCXHJTdP_cHArHXAqGLEWCvf3YOIE"
+    }
+]
+  
+  var options = {
+    method: 'post',
+    body: req.body,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    json: true,
+    url: createPlaylistUrl
+  }
+
+  request(options, function(req, response) {
+    console.log(response.body)
+    res.send(response.body);
+  })
+});
 
 console.log('Listening on 8888');
 app.listen(8888);
