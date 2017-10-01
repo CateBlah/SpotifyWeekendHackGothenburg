@@ -25,40 +25,37 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-    $(document).ready(function () {
-        var currentUser;
-        var users;
 
-        $.get('/users', function (data) {
-            currentUser = data.users.find(function (user) {
-                data.currentUser === user.refreshToken
-            })
 
-            users = data.users;
+        $(document).ready(function () {
+            var currentUser;
+            var users;
 
-            data.users.map(function (user, index) {
-                //$(".users").append(`<div>${user.userId}</div>`);
-                $(".users").append(`<div class="individual"></div>`);
-                //<img class='img-circle' src="http://via.placeholder.com/350x150">
-            })
+            $.get('/users', function (data) {
+                currentUser = data.users.find(function (user) {
+                    data.currentUser === user.refreshToken
+                })
+
+                users = data.users;
+
+                data.users.map(function (user, index) {
+                    //$(".users").append(`<div>${user.userId}</div>`);
+                    $(".users").append(`<div id="${user.userId}" class="individual"></div>`);
+
+                    document.getElementById(user.userId).addEventListener("click", function () {
+                        var $thisParagraph = $(this);
+                            //$thisParagraph.find( "div" ).text( "clicks: " + count );
+                            $thisParagraph.toggleClass("highlight");
+                    })
+                })
+            });
+
+            console.log("I get here");
+            $('.button2').click(function () {
+                console.log("I have been clicked");
+                $(".button2").hide();
+                $(".middle").append(`<iframe src="https://open.spotify.com/embed?uri=spotify:user:juliadang:playlist:5SaDGXa91ph8ePfMluVkSA" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>`)
+            });
         });
-
-        var selectedUsers = 
-        
-        console.log("I get here");
-        $('.button2').click(function(){
-           console.log("I have been clicked"); 
-           $(".button2").hide();  
-           $(".middle").append(`<iframe src="https://open.spotify.com/embed?uri=spotify:user:juliadang:playlist:5SaDGXa91ph8ePfMluVkSA" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>`)  
-        });
-        
-        $.ajax({
-            type: "POST",
-            url: "/createPlaylist",
-            data: data,
-            success: success,
-          });
-    });
-
 </script>
 </html>
