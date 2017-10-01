@@ -58,13 +58,13 @@ namespace PlaylistPool.Controllers
             {
                 var topTracksTest = topTracksCollection.items;
                 var topTracksAudioFeature = await _spotifyConnector.GetAudioFeatures(topTracksTest, currentUserAuthToken);
-                var audioFeatures = topTracksAudioFeature.audio_features.OrderByDescending(x => x.danceability).Take(5);
+                var audioFeatures = topTracksAudioFeature.audio_features.OrderByDescending(x => x.danceability).Take(8);
                 foreach (var audioFeaturese in audioFeatures)
                 {
                     topTracks.Add(topTracksTest.FirstOrDefault(x => x.id == audioFeaturese.id).uri);
                 }
             }
-
+            topTracks = topTracks.OrderBy(x => Guid.NewGuid()).ToList();
             var createdPlaylist = await _spotifyConnector.CreatePlaylistAsync(currentUserName, currentUserAuthToken, playListName);
             await _spotifyConnector.AddTracksToPlaylist(topTracks, currentUserName, createdPlaylist, currentUserAuthToken);
             return new ReturnPlaylist
