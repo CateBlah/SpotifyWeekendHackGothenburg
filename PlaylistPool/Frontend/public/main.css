@@ -24,21 +24,17 @@ a {
     height: 100%;
 }
 
-
-
 .col {
+    align-items: center;
+    display: flex;
     flex: 1 1 auto;
-    /* background-color: #0084FF; */
+    flex-direction: column;
+    justify-content: center;
 }
 
 .round {
     border-radius: 50%;
 }
-
-/* .users-left {
-    width: 100px;
-    border-color: #3498DB;
-} */
 
 @-webkit-keyframes bump {
     0% {
@@ -98,23 +94,16 @@ a {
   }
 
 .individual{
-    /* background-color: #3498DB; */
     border-radius: 50%;
     margin-bottom: 20px;
     width: 100px;
     height: 100px;
     background: #0ABAB5;
-    /* border: 30px solid blue; */
-    margin-left: 105px;
 }
 
 .highlight {
     opacity: 0.5;
 }
-
-/* .individual{
-    -webkit-animation: bump 6s linear 0s infinite normal;
-} */
 
 @-webkit-keyframes pulse {
     0% {

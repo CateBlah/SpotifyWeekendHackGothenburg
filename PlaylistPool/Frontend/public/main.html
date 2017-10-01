@@ -40,18 +40,16 @@
             var rightSide = 0;
 
             data.users.map(function (user, index) {
-                //$(".users").append(`<div>${user.userId}</div>`);
-                if(rightSide % 2 === 0){
-                    $(".users-left").append(`<div id=${user.userId} class="individual"></div>`);
-                    rightSide++;    
-                } else if (rightSide % 2 === 1){
-                    $(".users-right").append(`<div id=${user.userId} class="individual"></div>`);
-                    rightSide++;                   
+                if (rightSide % 2 === 0) {
+                    $(".users-left").append(`<div id=${user.userId} class="individual"><img class="individual" src=${user.imageUri}></img></div>`);
+                    rightSide++;
+                } else if (rightSide % 2 === 1) {
+                    $(".users-right").append(`<div id=${user.userId} class="individual"><img class="individual" src=${user.imageUri}></img></div>`);
+                    rightSide++;
                 }
-                
+
                 document.getElementById(user.userId).addEventListener("click", function () {
                     var $thisParagraph = $(this);
-                    //$thisParagraph.find( "div" ).text( "clicks: " + count );
                     $thisParagraph.toggleClass("highlight");
                 })
             })
@@ -65,9 +63,8 @@
                 url: "/createPlaylist",
                 data: { currentUser: currentUser, selectedUsers: selectedUsers },
                 success: function (data) {
-                    console.log('success', data);
                     $(".middle").append(
-                        '<iframe src="https://open.spotify.com/embed?uri=spotify:user:juliadang:playlist:5SaDGXa91ph8ePfMluVkSA" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>')
+                        `<iframe src="https://open.spotify.com/embed?uri=spotify:user:${data.userId}:playlist:${data.playListId}" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>`)
                 },
             });
         })
