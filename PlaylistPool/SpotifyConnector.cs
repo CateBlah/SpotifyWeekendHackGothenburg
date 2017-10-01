@@ -56,8 +56,6 @@ namespace PlaylistPool
             var authorizationStringBytes = Encoding.UTF8.GetBytes(authorizationString);
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"Basic", $"{Convert.ToBase64String(authorizationStringBytes)}");
 
-            ////user.RefreshToken =
-            ////    "AQCyOZj4MPKlX29cLi_Ffa5LyYM1yc5qqAV3VBmA6692aLLxH-OqgezYGysQYildWPcEJDBbPDttqWOXH1d6fWWi3-H4cWAPZeO9EPebCX6cghg-GvQbE80QzbaPXV05ft0";
             var content = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("grant_type", "refresh_token"),
@@ -91,7 +89,7 @@ namespace PlaylistPool
 
         }
 
-        public async Task<SpotifyPlaylist> CreatePlaylistAsync(string currentUserName, string authToken)
+        public async Task<SpotifyPlaylist> CreatePlaylistAsync(string currentUserName, string authToken, string playListName)
         {
             var httpClient = new HttpClient
             {
@@ -102,7 +100,7 @@ namespace PlaylistPool
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
             var contentDictionary = new Dictionary<string, string>
             {
-                { "name", Guid.NewGuid().ToString() }
+                { "name", $"{playListName} {Guid.NewGuid().ToString()}"}
             };
             var content = new StringContent(JsonConvert.SerializeObject(contentDictionary), Encoding.UTF8, "application/json");
             using (var response = await httpClient.PostAsync($"v1/users/{currentUserName}/playlists/", content))

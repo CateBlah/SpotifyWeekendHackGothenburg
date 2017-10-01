@@ -24,7 +24,24 @@ namespace PlaylistPool.Controllers
             var topTracksCollections = new List<ResponseObject>();
 
             var currentUserAuthToken = await _spotifyConnector.GetOauthTokenAsync(users.First());
-            var currentUserInfo = await  _spotifyConnector.GetUser(currentUserAuthToken);
+            var currentUserInfo = await _spotifyConnector.GetUser(currentUserAuthToken);
+
+            var nameList = new List<string>();
+            foreach (var user in users)
+            {
+                var userAuthToken = await _spotifyConnector.GetOauthTokenAsync(user);
+                var userInfo = await _spotifyConnector.GetUser(userAuthToken);
+                nameList.Add(userInfo.display_name ?? userInfo.id);
+            }
+            var playListName = "";
+            foreach (var name in nameList)
+            {
+                playListName += name;
+                if (name != nameList.Last())
+                {
+                    playListName += " ❤ ";
+                }
+            }
             var currentUserName = currentUserInfo.id;
 
             foreach (var user in users)
@@ -38,7 +55,7 @@ namespace PlaylistPool.Controllers
                 .Take(20)
                 .ToList();
 
-            var createdPlaylist = await _spotifyConnector.CreatePlaylistAsync(currentUserName, currentUserAuthToken);
+            var createdPlaylist = await _spotifyConnector.CreatePlaylistAsync(currentUserName, currentUserAuthToken, playListName);
             await _spotifyConnector.AddTracksToPlaylist(topTracks, currentUserName, createdPlaylist, currentUserAuthToken);
         }
 
