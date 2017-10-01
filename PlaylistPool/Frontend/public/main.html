@@ -45,6 +45,13 @@
 
         var selectedUsers = 
         
+        console.log("I get here");
+        $('.button2').click(function(){
+           console.log("I have been clicked"); 
+           $(".button2").hide();  
+           $(".middle").append(`<iframe src="https://open.spotify.com/embed?uri=spotify:user:juliadang:playlist:5SaDGXa91ph8ePfMluVkSA" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>`)  
+        });
+        
         $.ajax({
             type: "POST",
             url: "/createPlaylist",
