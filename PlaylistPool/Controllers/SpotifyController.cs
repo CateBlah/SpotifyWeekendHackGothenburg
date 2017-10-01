@@ -23,7 +23,7 @@ namespace PlaylistPool.Controllers
         }
 
         [HttpPost("generate-playlist")]
-        public async Task<string> GeneratePlaylistAsync([FromBody]IEnumerable<User> users)
+        public async Task<ReturnPlaylist> GeneratePlaylistAsync([FromBody]IEnumerable<User> users)
         {
             var topTracksCollections = new List<ResponseObject>();
 
@@ -61,7 +61,11 @@ namespace PlaylistPool.Controllers
 
             var createdPlaylist = await _spotifyConnector.CreatePlaylistAsync(currentUserName, currentUserAuthToken, playListName);
             await _spotifyConnector.AddTracksToPlaylist(topTracks, currentUserName, createdPlaylist, currentUserAuthToken);
-            return createdPlaylist.id;
+            return new ReturnPlaylist
+            {
+                PlayListId = createdPlaylist.id,
+                UserId = currentUserInfo.id
+            };
         }
 
         [HttpGet("get-users")]
