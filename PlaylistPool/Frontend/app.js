@@ -34,6 +34,7 @@ var generateRandomString = function(length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
+var url = 'http://10f838bf.ngrok.io/api/user';
 
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
@@ -44,7 +45,7 @@ app.get('/login', function(req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email';
+  var scope = 'user-read-private user-read-email user-top-read playlist-read-private user-read-recently-played';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -56,10 +57,6 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/callback', function(req, res) {
-console.log("I am here.")
-  // your application requests refresh and access tokens
-  // after checking the state parameter
-
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -89,21 +86,23 @@ console.log("I am here.")
 
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
-            
-        var url = 'http://localhost:52920/api/user';
         
+        var body2 = {
+          userId: body.id,
+          accessToken: access_token,
+          refreshToken: refresh_token
+        }
         var options = {
           method: 'post',
-          body: {
-            Id: '1',
-            UserId: body.id,
-            AccessToken: access_token
+          body: body2,
+          headers: {
+            "Content-Type": "application/json"      
           },
           json: true,
           url: url
         }
-
-        request(options, function (err, res, body) {
+        
+        request(options, function (err, response, body) {
           if (err) {
             console.error('error posting json: ', err)
             throw err
@@ -121,29 +120,24 @@ console.log("I am here.")
   }
 });
 
-app.get('/refresh_token', function(req, res) {
-
-  // requesting access token from refresh token
-  var refresh_token = req.query.refresh_token;
-  var authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token
-    },
-    json: true
+app.get('/users', function(req, res) {
+  var options = {
+    method: 'get',
+    url: url
   };
-
-  request.post(authOptions, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
-      res.send({
-        'access_token': access_token
-      });
+  
+  request(options, function (err, response, body) {
+    if (err) {
+      console.error('error: ', err)
+      throw err
     }
-  });
-});
+    res.send(response);
+  })
+})
+
+app.post('api/spotify/generate-playlist', function(req, res) {
+
+})
 
 console.log('Listening on 8888');
 app.listen(8888);
