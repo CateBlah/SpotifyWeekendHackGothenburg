@@ -19,13 +19,211 @@ a {
 
 .content {
     display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
 }
 
 .col {
     flex: 1 1 auto;
-    background-color: blue;
+    /* background-color: #0084FF; */
 }
 
 .round {
     border-radius: 50%;
 }
+
+/* .users-left {
+    width: 100px;
+    border-color: #3498DB;
+} */
+
+@-webkit-keyframes bump {
+    0% {
+        top: 0;
+    }
+    5% {
+        top: 3px;
+    }
+    10% {
+        top:0;
+    }
+    100% {
+        top:0;
+    }
+  }
+  @-o-keyframes bump {
+    0% {
+        top: 0;
+    }
+    5% {
+        top: 3px;
+    }
+    10% {
+        top:0;
+    }
+    100% {
+        top:0;
+    }
+  }
+  @-moz-keyframes bump {
+    0% {
+        top: 0;
+    }
+    5% {
+        top: 3px;
+    }
+    10% {
+        top:0;
+    }
+    100% {
+        top:0;
+    }
+  }
+  @keyframes bump {
+    0% {
+        top: 0;
+    }
+    5% {
+        top: 3px;
+    }
+    10% {
+        top:0;
+    }
+    100% {
+        top:0;
+    }
+  }
+
+.individual{
+    /* background-color: #3498DB; */
+    border-radius: 50%;
+    margin-bottom: 20px;
+    width: 100px;
+    height: 100px;
+    background: #0ABAB5;
+    /* border: 30px solid blue; */
+    margin-left: 105px;
+}
+
+/* .individual{
+    -webkit-animation: bump 6s linear 0s infinite normal;
+} */
+
+@-webkit-keyframes pulse {
+    0% {
+      -webkit-transform: scale(1) rotate(0deg); 
+    }
+    50% {
+      -webkit-transform: scale(1.1) rotate(-5deg); 
+    }
+    100% {
+      -webkit-transform: scale(1) rotate(0deg); 
+    }
+}
+@-o-keyframes pulse {
+    0% {
+      -o-transform: scale(1) rotate(0deg); 
+    }
+    50% {
+      -o-transform: scale(1.1) rotate(-5deg); 
+    }
+    100% {
+      -o-transform: scale(1) rotate(0deg); 
+    }
+}
+@-moz-keyframes pulse {
+    0% {
+      -moz-transform: scale(1) rotate(0deg); 
+    }
+    50% {
+      -moz-transform: scale(1.1) rotate(-5deg); 
+    }
+    100% {
+      -moz-transform: scale(1) rotate(0deg); 
+    }
+}
+@keyframes pulse {
+    0% {
+      transform: scale(1) rotate(0deg); 
+    }
+    50% {
+      transform: scale(1.1) rotate(-5deg); 
+    }
+    100% {
+      transform: scale(1) rotate(0deg); 
+    }
+}
+
+.individual:hover{
+    -webkit-animation: pulse 1s ease 0s infinite normal;
+    -o-animation: pulse 1s ease 0s infinite normal;
+    -moz-animation: pulse 1s ease 0s infinite normal;
+    animation: pulse 1s ease 0s infinite normal;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans);
+body, html {
+  margin: 0;
+  padding: 0;
+  background: #ECF0F1;
+  font-family: "Fira Sans";
+  text-align: center;
+}
+body .canvas, html .canvas {
+  width: 600px;
+  height: 400px;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0px 0px 20px 1px #bbb;
+}
+body .foot-wrapper, html .foot-wrapper {
+  color: #BFBFBF;
+  float: left;
+  position: absoulte;
+}
+body .foot-wrapper .footer, html .foot-wrapper .footer {
+  margin-top: 100vh;
+  margin-left: 20px;
+}
+
+.buttons {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  width: 200px;
+  height: 100px;
+  background: #F2385A;
+  position: relative;
+  margin: 30px;
+  top: 100px;
+  padding: 16px;
+  font-size: 50px;
+  border-radius: 10px;
+  box-shadow: 0px 15px 0px 0px #f02046, 0px 0px 20px 0px #bbb;
+  transition: all 0.2s;
+}
+
+a:active {
+  top: 108px;
+  box-shadow: 0px 7px 0px 0px #f02046;
+}
+
+
+.button2 {
+  background-color: #3498DB;
+  box-shadow: 0px 15px 0px 0px #258cd1;
+}
+.button2:active {
+  box-shadow: 0px 7px 0px 0px #258cd1;
+}
+

@@ -11,13 +11,18 @@
     <div class="container">
         <h1>Choose your mixing partners</h1>
         <div class="content">
-            <div class="col users users-left" />
-            <div class="col middle" />
-            <div class="col users users-right" />
+            <div class="col users users-left"></div>
+            <div class="col middle">
+                <div class="buttons">
+                    <a class="button2" href="#">Mix!</a>
+
+            </div>
+            </div>
+            <div class="col users users-right"></div>
         </div>
     </div>
 </body>
-<!-- hello
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
@@ -27,13 +32,14 @@
             var users = JSON.parse(data.body);
 
             users.map(function (user, index) {
-                $(".users").append(`<div>${user.userId}</div>`);
-                $(".users").append(`<img class='img-circle' src="http://via.placeholder.com/350x150">`);
+                //$(".users").append(`<div>${user.userId}</div>`);
+                $(".users").append(`<div class="individual"></div>`);
+                //<img class='img-circle' src="http://via.placeholder.com/350x150">
             })
         })
     });
 
 </script>
- -->
+
 
 </html>
