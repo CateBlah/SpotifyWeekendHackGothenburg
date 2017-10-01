@@ -34,6 +34,7 @@ var generateRandomString = function(length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
+var url = 'http://10f838bf.ngrok.io/api/user';
 
 app.use(express.static(__dirname + '/public'))
    .use(cookieParser());
@@ -56,9 +57,6 @@ app.get('/login', function(req, res) {
 });
 
 app.get('/callback', function(req, res) {
-  // your application requests refresh and access tokens
-  // after checking the state parameter
-
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -88,8 +86,6 @@ app.get('/callback', function(req, res) {
 
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
-
-            var url = 'http://087945ae.ngrok.io/api/user' 
         
         var body2 = {
           userId: body.id,
@@ -124,34 +120,7 @@ app.get('/callback', function(req, res) {
   }
 });
 
-app.get('/refresh_token', function(req, res) {
-
-  // requesting access token from refresh token
-  var refresh_token = req.query.refresh_token;
-  var authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token
-    },
-    json: true
-  };
-
-  request.post(authOptions, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-      var access_token = body.access_token;
-      res.send({
-        'access_token': access_token
-      });
-    }
-  });
-});
-
 app.get('/users', function(req, res) {
-  // var url = 'http://087945ae.ngrok.io/api/user';
-  var url = 'http://7ee2ddb3.ngrok.io/api/user';
-
   var options = {
     method: 'get',
     url: url

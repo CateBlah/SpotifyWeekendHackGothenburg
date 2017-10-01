@@ -9,19 +9,24 @@
 
 <body>
     <div class="container">
-        Hey, there! :-)
-        <div class="users" />
+        <h1>Choose your mixing partners</h1>
+        <div class="content">
+            <div class="col users users-left" />
+            <div class="col middle" />
+            <div class="col users users-right" />
+        </div>
     </div>
 </body>
+<!-- hello
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
-        $.get('/users', function(data) {
+        $.get('/users', function (data) {
             console.log(data.body.length)
             var users = JSON.parse(data.body);
 
-            users.map(function(user) {
+            users.map(function (user, index) {
                 $(".users").append(`<div>${user.userId}</div>`);
                 $(".users").append(`<img class='img-circle' src="http://via.placeholder.com/350x150">`);
             })
@@ -29,5 +34,6 @@
     });
 
 </script>
+ -->
 
 </html>
