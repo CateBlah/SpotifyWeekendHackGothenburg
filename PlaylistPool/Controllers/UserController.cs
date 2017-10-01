@@ -14,9 +14,12 @@ namespace PlaylistPool.Controllers
     public class UserController : Controller
     {
         readonly IDatabaseRepository _databaseRepository;
-        public UserController(IDatabaseRepository databaseRepository)
+        private readonly ISpotifyConnector _spotifyConnector;
+
+        public UserController(IDatabaseRepository databaseRepository, ISpotifyConnector spotifyConnector)
         {
             _databaseRepository = databaseRepository;
+            _spotifyConnector = spotifyConnector;
         }
         [HttpGet]
         public async Task<IEnumerable<User>> Get()

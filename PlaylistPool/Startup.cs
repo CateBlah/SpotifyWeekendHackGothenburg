@@ -22,6 +22,7 @@ namespace PlaylistPool
         {
             services.AddMvc();
             services.AddTransient<IDatabaseRepository, DatabaseRepository>();
+            services.AddTransient<ISpotifyConnector, SpotifyConnector>();
             services.AddTransient<UserDbContext>();
             var connection = @"Server=(localdb)\mssqllocaldb;Database=PlaylistPool.Models.User;Trusted_Connection=True;";
             services.AddDbContext<UserDbContext>(options => options.UseSqlServer(connection));
