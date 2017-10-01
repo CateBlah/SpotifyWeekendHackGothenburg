@@ -17,5 +17,7 @@ namespace PlaylistPool
         Task<SpotifyPlaylist> CreatePlaylistAsync(string currentUserName, string authToken, string playListName);
 
         Task AddTracksToPlaylist(List<string> topTracks, string currentUset, SpotifyPlaylist playlist, string authToken);
+
+        Task<AudioFeature> GetAudioFeatures(IEnumerable<Item> tracks, string authToken);
     }
 }

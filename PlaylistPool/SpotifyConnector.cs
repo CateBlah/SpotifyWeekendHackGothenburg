@@ -21,7 +21,7 @@ namespace PlaylistPool
             var tracksOrArtists = tracks ? "tracks" : "artists";
             using (var httpClient = await CreateHttpClientAsync(user))
             {
-                using (var response = await httpClient.GetAsync($"me/top/{tracksOrArtists}"))
+                using (var response = await httpClient.GetAsync($"me/top/{tracksOrArtists}?limit=50"))
                 {
                     response.EnsureSuccessStatusCode();
                     var responseBody = await response.Content.ReadAsStringAsync();
@@ -140,6 +140,36 @@ namespace PlaylistPool
             }
 
             // POST https://api.spotify.com/v1/users/{user_id}/playlists/{playlist_id}/tracks
+        }
+
+        public async Task<AudioFeature> GetAudioFeatures(IEnumerable<Item> tracks, string authToken)
+        {
+            var httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://api.spotify.com/"),
+            };
+
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+
+            var urlFix = "";
+            foreach (var track in tracks)
+            {
+                if (track == tracks.First())
+                {
+                    urlFix += "ids=";
+                }
+                urlFix += $"{track.id}";
+                if (track == tracks.Last()) continue;
+                urlFix += ",";
+            }
+
+            using (var response = await httpClient.GetAsync($"v1/audio-features?{urlFix}"))
+            {
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var deserializedContent = JsonConvert.DeserializeObject<AudioFeature>(responseBody);
+                return deserializedContent;
+            }
         }
     }
 }
