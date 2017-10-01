@@ -35,7 +35,8 @@ var generateRandomString = function (length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
-var url = 'http://2cb61383.ngrok.io/api/user';
+var getUserUrl = 'http://2cb61383.ngrok.io/api/spotify/get-users';
+var postUserUrl = 'http://2cb61383.ngrok.io/api/user';
 
 app.use(express.static(__dirname + '/public'))
   .use(cookieParser());
@@ -88,7 +89,8 @@ app.get('/callback', function (req, res) {
 
     request.post(authOptions, function (error, response, body) {
       if (!error && response.statusCode === 200) {
-        req.session.currentUser = body.refresh_token;
+        req.session.currentUser = body.refresh_token; //CurrentUser
+
         var access_token = body.access_token,
         refresh_token = body.refresh_token;
         
@@ -105,7 +107,7 @@ app.get('/callback', function (req, res) {
             "Content-Type": "application/json"
           },
           json: true,
-          url: url
+          url: postUserUrl
         }
 
         request(options, function (err, response, body) {
@@ -129,7 +131,7 @@ app.get('/callback', function (req, res) {
 app.get('/users', function (req, res) {
   var options = {
     method: 'get',
-    url: url
+    url: getUserUrl
   };
 
   request(options, function (err, response, body) {
@@ -137,8 +139,8 @@ app.get('/users', function (req, res) {
       console.error('error: ', err)
       throw err
     }
+    console.log(response);
     var users = JSON.parse(response.body);
-    
     var returnObject = {users: users, currentUser: req.session.currentUser}
     res.send(returnObject);
   })
@@ -164,7 +166,6 @@ app.post('/createPlaylist', function(req, res) {
         "refreshToken": "AQBkJEru6bbQPkxwQPtEgz-MR1WoxLimObG82ZPB_x7q3Ka0sEW3HXNiiuAcgGfsBvqauejMxBpA7caIUUGINxLWYjbWc0b2GfutRriCXHJTdP_cHArHXAqGLEWCvf3YOIE"
     }
 ]
-  
   var options = {
     method: 'post',
     body: req.body,
@@ -176,7 +177,6 @@ app.post('/createPlaylist', function(req, res) {
   }
 
   request(options, function(req, response) {
-    console.log(response.body)
     res.send(response.body);
   })
 });
