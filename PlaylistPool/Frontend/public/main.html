@@ -15,8 +15,7 @@
             <div class="col middle">
                 <div class="buttons">
                     <a class="button2" href="#">Mix!</a>
-
-            </div>
+                </div>
             </div>
             <div class="col users users-right"></div>
         </div>
@@ -27,19 +26,32 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function () {
-        $.get('/users', function (data) {
-            console.log(data.body.length)
-            var users = JSON.parse(data.body);
+        var currentUser;
+        var users;
 
-            users.map(function (user, index) {
+        $.get('/users', function (data) {
+            currentUser = data.users.find(function (user) {
+                data.currentUser === user.refreshToken
+            })
+
+            users = data.users;
+
+            data.users.map(function (user, index) {
                 //$(".users").append(`<div>${user.userId}</div>`);
                 $(".users").append(`<div class="individual"></div>`);
                 //<img class='img-circle' src="http://via.placeholder.com/350x150">
             })
-        })
+        });
+
+        var selectedUsers = 
+        
+        $.ajax({
+            type: "POST",
+            url: "/createPlaylist",
+            data: data,
+            success: success,
+          });
     });
 
 </script>
-
-
 </html>
