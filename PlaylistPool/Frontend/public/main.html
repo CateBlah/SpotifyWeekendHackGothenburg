@@ -16,15 +16,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-    var url = 'http://087945ae.ngrok.io/api/user'
-
     $(document).ready(function () {
         $.get('/users', function(data) {
-            console.log(data.body)
-            // data.body.map(function(user) {
-            //     $(".users").append(<div>{user}</div>);
+            console.log(data.body.length)
+            var users = JSON.parse(data.body);
 
-            // })
+            users.map(function(user) {
+                $(".users").append(`<div>${user.userId}</div>`);
+                $(".users").append(`<img class='img-circle' src="http://via.placeholder.com/350x150">`);
+            })
         })
     });
 
