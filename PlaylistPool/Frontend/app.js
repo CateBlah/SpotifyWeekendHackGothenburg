@@ -8,6 +8,7 @@
  */
 
 var express = require('express'); // Express web server framework
+var cookieSession = require('cookie-session')
 var request = require('request'); // "Request" library
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
@@ -21,7 +22,7 @@ var redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
-var generateRandomString = function(length) {
+var generateRandomString = function (length) {
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -37,15 +38,19 @@ var app = express();
 var url = 'http://10f838bf.ngrok.io/api/user';
 
 app.use(express.static(__dirname + '/public'))
-   .use(cookieParser());
+  .use(cookieParser());
+app.use(cookieSession({
+  name: 'session',
+  keys: ['test'],
+}))
 
-app.get('/login', function(req, res) {
+app.get('/login', function (req, res) {
 
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email user-top-read playlist-read-private user-read-recently-played';
+  var scope = 'user-read-private user-read-email user-top-read playlist-read-private user-read-recently-played playlist-modify-public';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -56,7 +61,7 @@ app.get('/login', function(req, res) {
     }));
 });
 
-app.get('/callback', function(req, res) {
+app.get('/callback', function (req, res) {
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -81,27 +86,28 @@ app.get('/callback', function(req, res) {
       json: true
     };
 
-    request.post(authOptions, function(error, response, body) {
+    request.post(authOptions, function (error, response, body) {
       if (!error && response.statusCode === 200) {
-
+        req.session.currentUser = body.refresh_token;
         var access_token = body.access_token,
-            refresh_token = body.refresh_token;
+        refresh_token = body.refresh_token;
         
         var body2 = {
           userId: body.id,
           accessToken: access_token,
           refreshToken: refresh_token
         }
+        
         var options = {
           method: 'post',
           body: body2,
           headers: {
-            "Content-Type": "application/json"      
+            "Content-Type": "application/json"
           },
           json: true,
           url: url
         }
-        
+
         request(options, function (err, response, body) {
           if (err) {
             console.error('error posting json: ', err)
@@ -109,7 +115,7 @@ app.get('/callback', function(req, res) {
           }
           res.redirect("main.html")
         })
-        
+
       } else {
         res.redirect('/#' +
           querystring.stringify({
@@ -120,22 +126,25 @@ app.get('/callback', function(req, res) {
   }
 });
 
-app.get('/users', function(req, res) {
+app.get('/users', function (req, res) {
   var options = {
     method: 'get',
     url: url
   };
-  
+
   request(options, function (err, response, body) {
     if (err) {
       console.error('error: ', err)
       throw err
     }
-    res.send(response);
+    var users = JSON.parse(response.body);
+    
+    var returnObject = {users: users, currentUser: req.session.currentUser}
+    res.send(returnObject);
   })
 })
 
-app.post('api/spotify/generate-playlist', function(req, res) {
+app.post('api/spotify/generate-playlist', function (req, res) {
 
 })
 
