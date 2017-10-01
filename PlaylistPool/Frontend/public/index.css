@@ -150,6 +150,9 @@ h1 .cover-heading {
     color: rgba(255,255,255,.5);
 }
 
+.btn-secondary:hover{
+    color: silver;
+}
 
 /*
  * Affix and center
